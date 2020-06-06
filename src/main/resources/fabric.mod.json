@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "bacteria",
+  "version": "1.0.0",
+
+  "name": "Bacteria",
+  "description": "Create bacteria and let it eat the world! (Please manage your bio hazards responsibly). Recreation of the Bacteria mod by TeNNoX",
+  "authors": [
+    "Stuin"
+  ],
+  "contact": {
+    "homepage": "https://stuintech.com/",
+    "sources": "https://github.com/stuin/bacteria"
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/bacteria/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.stuintech.bacteria.BacteriaMod"
+    ]
+  },
+
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": "*",
+    "minecraft": "1.15.x"
+  }
+}

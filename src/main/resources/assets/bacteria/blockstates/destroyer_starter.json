@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "": { "model": "bacteria:block/destroyer" }
+    }
+}
