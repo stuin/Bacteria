@@ -22,7 +22,8 @@ public class ReplacerStarter extends Block {
             BlockState input = world.getBlockState(pos.down());
             BlockState output = world.getBlockState(pos.up());
             if((output.getOutlineShape(world, pos.up()) == VoxelShapes.fullCube() ||
-                    output.getFluidState() != Fluids.EMPTY.getDefaultState()) &&
+                    output.getBlock() == Blocks.WATER ||
+                    output.getBlock() == Blocks.LAVA) &&
                     input.getBlock() != output.getBlock() &&
                     input.getBlock() != ModBlocks.replacer &&
                     input.getBlock() != ModBlocks.destroyer &&

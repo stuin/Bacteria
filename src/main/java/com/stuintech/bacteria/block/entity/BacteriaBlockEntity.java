@@ -1,5 +1,6 @@
 package com.stuintech.bacteria.block.entity;
 
+import com.stuintech.bacteria.BacteriaMod;
 import com.stuintech.bacteria.block.ModBlocks;
 import com.stuintech.bacteria.util.NeighborLists;
 import net.minecraft.block.Block;
@@ -18,11 +19,13 @@ import java.util.Set;
 public class BacteriaBlockEntity extends BlockEntity {
     private Set<Block> input;
     private Block output;
+    private boolean counted = false;
 
     private static final Random RANDOM = new Random();
     public static final int MAXDELAY = 30;
     public static final int MINDELAY = 10;
     public static boolean jammed = false;
+    public static int counter = 0;
     
     public BacteriaBlockEntity() {
         super(ModBlocks.bacteriaEntity);
@@ -32,6 +35,9 @@ public class BacteriaBlockEntity extends BlockEntity {
         super(ModBlocks.bacteriaEntity);
         this.input = input;
         this.output = output;
+
+        counter++;
+        counted = true;
 
         if(output == Blocks.AIR)
             world.setBlockState(pos, ModBlocks.destroyer.getDefaultState());
@@ -52,10 +58,26 @@ public class BacteriaBlockEntity extends BlockEntity {
             } else {
                 world.setBlockState(pos, output.getDefaultState());
                 markRemoved();
+                
+                if(counted) {
+                    counter--;
+                    counted = false;
+
+                    if(jammed && counter == 0)
+                        jammed = false;
+                }
             }
         } else if(world != null) {
             world.setBlockState(pos, output.getDefaultState());
             markRemoved();
+
+            if(counted) {
+                counter--;
+                counted = false;
+
+                if(jammed && counter == 0)
+                    jammed = false;
+            }
         }
     }
 
@@ -65,6 +87,11 @@ public class BacteriaBlockEntity extends BlockEntity {
         for(String s : tag.getString("inputID").split("#"))
             input.add(Registry.BLOCK.get(Identifier.tryParse(s)));
         output = Registry.BLOCK.get(Identifier.tryParse(tag.getString("outputID")));
+
+        if(!counted && tag.getBoolean("counted")) {
+            counter++;
+            counted = true;
+        }
         super.fromTag(tag);
     }
 
@@ -76,6 +103,15 @@ public class BacteriaBlockEntity extends BlockEntity {
         tag.putString("inputID", s.toString());
         
         tag.putString("outputID", Registry.BLOCK.getId(output).toString());
+        tag.putBoolean("counted", counted);
+
+        if(counted) {
+            counter--;
+            counted = false;
+
+            if(jammed && counter == 0)
+                jammed = false;
+        }
         return super.toTag(tag);
     }
 }

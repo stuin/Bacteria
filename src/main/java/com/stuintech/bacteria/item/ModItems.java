@@ -14,6 +14,5 @@ public class ModItems {
     public static void register() {
         Registry.register(Registry.ITEM, BacteriaMod.MODID + ":jammer", jammer);
         Registry.register(Registry.ITEM, BacteriaMod.MODID + ":compacted_must", compactedMust);
-
     }
 }
