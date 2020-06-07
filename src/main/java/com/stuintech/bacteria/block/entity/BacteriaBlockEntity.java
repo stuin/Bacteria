@@ -44,32 +44,12 @@ public class BacteriaBlockEntity extends BlockEntity {
     
     public void tick() {
         if(world != null && !jammed) {
-            int randI = RANDOM.nextInt(27);
-            int i = randI;
-            boolean success = false;
-            //Try all close blocks
-            do {
-                if(input.contains(world.getBlockState(NeighborLists.close[i].add(pos)).getBlock())) {
-                    new BacteriaBlockEntity(world, NeighborLists.close[i].add(pos), input, output);
-                    i = randI;
-                    success = true;
-                } else
-                    i = (i + 1) % 27;
-            } while(i != randI && !success);
-            
-            if(!success) {
-                //Try specific far blocks
-                for(i = 0; i < 12 && !success; i++)
-                    if(input.contains(world.getBlockState(NeighborLists.far[i].add(pos)).getBlock())) {
-                        new BacteriaBlockEntity(world, NeighborLists.far[i].add(pos), input, output);
-                        success = true;
-                    }
-            }
-
             //Finish up
-            if(success)
+            BlockPos next = NeighborLists.nextPlace(world, pos, input);
+            if(next != null) {
+                new BacteriaBlockEntity(world, next, input, output);
                 world.getBlockTickScheduler().schedule(pos, world.getBlockState(pos).getBlock(), RANDOM.nextInt(MAXDELAY) + MINDELAY);
-            else {
+            } else {
                 world.setBlockState(pos, output.getDefaultState());
                 markRemoved();
             }
@@ -92,7 +72,7 @@ public class BacteriaBlockEntity extends BlockEntity {
     public CompoundTag toTag(CompoundTag tag) {
         StringBuilder s = new StringBuilder();
         for(Block b : input)
-            s.append(Registry.BLOCK.getId(b).toString() + "#");
+            s.append(Registry.BLOCK.getId(b).toString()).append("#");
         tag.putString("inputID", s.toString());
         
         tag.putString("outputID", Registry.BLOCK.getId(output).toString());

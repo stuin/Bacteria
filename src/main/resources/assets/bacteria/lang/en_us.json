@@ -3,5 +3,7 @@
   "block.bacteria.replacer": "Replacer Bacteria",
   "block.bacteria.destroyer_starter": "Destroyer Bacteria",
   "block.bacteria.destroyer": "Destroyer Bacteria",
-  "item.bacteria.jammer": "Bacteria Jammer"
+  "block.bacteria.must": "Must",
+  "item.bacteria.jammer": "Bacteria Jammer",
+  "item.bacteria.compacted_must": "Compacted Must"
 }

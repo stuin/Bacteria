@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "MMM",
+    "MRM",
+    "MMM"
+  ],
+  "key": {
+    "M": {
+      "item": "bacteria:compacted_must"
+    },
+    "R": {
+      "item": "minecraft:tnt"
+    }
+  },
+  "result": {
+    "item": "bacteria:destroyer_starter"
+  }
+}
