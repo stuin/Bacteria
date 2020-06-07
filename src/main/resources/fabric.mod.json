@@ -4,7 +4,7 @@
   "version": "1.0.0",
 
   "name": "Bacteria",
-  "description": "Create bacteria and let it eat the world! (Please manage your bio hazards responsibly). Recreation of the Bacteria mod by TeNNoX",
+  "description": "Create bacteria and let it eat the world! (Please manage your bio hazards responsibly). Recreation of the Bacteria mod by TeNNoX. Block textures are his.",
   "authors": [
     "Stuin"
   ],
@@ -12,9 +12,12 @@
     "homepage": "https://stuintech.com/",
     "sources": "https://github.com/stuin/bacteria"
   },
+  "contributors": [
+    "TeNNoX"
+  ],
 
   "license": "CC0-1.0",
-  "icon": "assets/bacteria/icon.png",
+  "icon": "assets/bacteria/textures/block/destroyer.png",
 
   "environment": "*",
   "entrypoints": {

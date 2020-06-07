@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.util.registry.Registry;
 
 public class ModBlocks {
@@ -31,9 +32,12 @@ public class ModBlocks {
         Registry.register(Registry.BLOCK, BacteriaMod.MODID + ":must", must);
 
         //Register block items
-        Registry.register(Registry.ITEM, BacteriaMod.MODID + ":replacer_starter", new BlockItem(replacerStarter, ModItems.settings));
-        Registry.register(Registry.ITEM, BacteriaMod.MODID + ":destroyer_starter", new BlockItem(destroyerStarter, ModItems.settings));
-        Registry.register(Registry.ITEM, BacteriaMod.MODID + ":must", new BlockItem(must, ModItems.settings));
+        Registry.register(Registry.ITEM, BacteriaMod.MODID + ":replacer_starter",
+                new BlockItem(replacerStarter, ModItems.settings.group(ItemGroup.REDSTONE)));
+        Registry.register(Registry.ITEM, BacteriaMod.MODID + ":destroyer_starter",
+                new BlockItem(destroyerStarter, ModItems.settings.group(ItemGroup.REDSTONE)));
+        Registry.register(Registry.ITEM, BacteriaMod.MODID + ":must",
+                new BlockItem(must, ModItems.settings.group(ItemGroup.DECORATIONS)));
 
         //Register block entities
         bacteriaEntity = Registry.register(Registry.BLOCK_ENTITY_TYPE,

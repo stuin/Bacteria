@@ -6,10 +6,10 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.util.registry.Registry;
 
 public class ModItems {
-    public static Item.Settings settings = new Item.Settings().group(ItemGroup.REDSTONE);
+    public static Item.Settings settings = new Item.Settings();
 
-    public static Item jammer = new Jammer(settings);
-    public static Item compactedMust = new Item(settings);
+    public static Item jammer = new Jammer(settings.group(ItemGroup.REDSTONE));
+    public static Item compactedMust = new Item(settings.group(ItemGroup.MATERIALS));
     
     public static void register() {
         Registry.register(Registry.ITEM, BacteriaMod.MODID + ":jammer", jammer);
