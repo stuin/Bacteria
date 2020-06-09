@@ -4,6 +4,7 @@ import com.stuintech.bacteria.BacteriaMod;
 import com.stuintech.bacteria.block.ModBlocks;
 import com.stuintech.bacteria.util.NeighborLists;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.CompoundTag;
@@ -86,7 +87,7 @@ public class BacteriaBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void fromTag(CompoundTag tag) {
+    public void fromTag(BlockState state, CompoundTag tag) {
         input = new HashSet<>();
         for(String s : tag.getString("inputID").split("#"))
             input.add(Registry.BLOCK.get(Identifier.tryParse(s)));
@@ -96,7 +97,7 @@ public class BacteriaBlockEntity extends BlockEntity {
             counter++;
             counted = true;
         }
-        super.fromTag(tag);
+        super.fromTag(state, tag);
     }
 
     @Override
