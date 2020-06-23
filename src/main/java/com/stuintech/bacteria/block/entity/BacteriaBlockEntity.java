@@ -85,7 +85,7 @@ public class BacteriaBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void fromTag(CompoundTag tag) {
+    public void fromTag(BlockState state, CompoundTag tag) {
         input = new HashSet<>();
         for(String s : tag.getString("inputID").split("#"))
             input.add(Registry.BLOCK.get(Identifier.tryParse(s)));
@@ -95,7 +95,7 @@ public class BacteriaBlockEntity extends BlockEntity {
             counter++;
             counted = true;
         }
-        super.fromTag(tag);
+        super.fromTag(state, tag);
     }
 
     @Override
