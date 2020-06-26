@@ -21,13 +21,13 @@ import java.util.Set;
 public class BacteriaBlockEntity extends BlockEntity {
     private Set<Block> input;
     private Block output;
-    private boolean counted = false;
 
     private static final Random RANDOM = new Random();
     public static final int MAXDELAY = 30;
     public static final int MINDELAY = 10;
+    public static final int JAMMERDELAY = MAXDELAY * 2;
     public static boolean jammed = false;
-    public static int counter = 0;
+    public static long jammedAt = 0;
     
     public BacteriaBlockEntity() {
         super(ModBlocks.bacteriaEntity);
@@ -37,9 +37,6 @@ public class BacteriaBlockEntity extends BlockEntity {
         super(ModBlocks.bacteriaEntity);
         this.input = input;
         this.output = output;
-
-        counter++;
-        counted = true;
 
         if(output == Blocks.AIR)
             world.setBlockState(pos, ModBlocks.destroyer.getDefaultState());
@@ -52,34 +49,30 @@ public class BacteriaBlockEntity extends BlockEntity {
     }
     
     public void tick() {
-        if(world != null && !jammed) {
-            //Finish up
-            BlockPos next = NeighborLists.nextPlace(world, pos, input);
-            if(next != null) {
-                new BacteriaBlockEntity(world, next, input, output);
-                world.getBlockTickScheduler().schedule(pos, world.getBlockState(pos).getBlock(), RANDOM.nextInt(MAXDELAY) + MINDELAY);
+        if(world != null) {
+            //Update jammer time
+            if(jammed) {
+                if(jammedAt == 0)
+                    jammedAt = world.getTime();
+                else if(jammedAt + JAMMERDELAY < world.getTime() || jammedAt > world.getTime()) {
+                    jammed = false;
+                    jammedAt = 0;
+                }
+            }
+
+            //Spread
+            if(!jammed) {
+                BlockPos next = NeighborLists.nextPlace(world, pos, input);
+                if(next != null) {
+                    new BacteriaBlockEntity(world, next, input, output);
+                    world.getBlockTickScheduler().schedule(pos, world.getBlockState(pos).getBlock(), RANDOM.nextInt(MAXDELAY) + MINDELAY);
+                } else {
+                    world.setBlockState(pos, output.getDefaultState());
+                    markRemoved();
+                }
             } else {
                 world.setBlockState(pos, output.getDefaultState());
                 markRemoved();
-                
-                if(counted) {
-                    counter--;
-                    counted = false;
-
-                    if(jammed && counter == 0)
-                        jammed = false;
-                }
-            }
-        } else if(world != null) {
-            world.setBlockState(pos, output.getDefaultState());
-            markRemoved();
-
-            if(counted) {
-                counter--;
-                counted = false;
-
-                if(jammed && counter == 0)
-                    jammed = false;
             }
         }
     }
@@ -89,12 +82,8 @@ public class BacteriaBlockEntity extends BlockEntity {
         input = new HashSet<>();
         for(String s : tag.getString("inputID").split("#"))
             input.add(Registry.BLOCK.get(Identifier.tryParse(s)));
+        
         output = Registry.BLOCK.get(Identifier.tryParse(tag.getString("outputID")));
-
-        if(!counted && tag.getBoolean("counted")) {
-            counter++;
-            counted = true;
-        }
         super.fromTag(state, tag);
     }
 
@@ -106,15 +95,6 @@ public class BacteriaBlockEntity extends BlockEntity {
         tag.putString("inputID", s.toString());
         
         tag.putString("outputID", Registry.BLOCK.getId(output).toString());
-        tag.putBoolean("counted", counted);
-
-        if(counted) {
-            counter--;
-            counted = false;
-
-            if(jammed && counter == 0)
-                jammed = false;
-        }
         return super.toTag(tag);
     }
 }
