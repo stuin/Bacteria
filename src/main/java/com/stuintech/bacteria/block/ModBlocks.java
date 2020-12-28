@@ -4,11 +4,14 @@ import com.stuintech.bacteria.BacteriaMod;
 import com.stuintech.bacteria.block.entity.BacteriaBlockEntity;
 import com.stuintech.bacteria.item.ModItems;
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.tag.Tag;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class ModBlocks {
@@ -22,6 +25,10 @@ public class ModBlocks {
     public static final Block must = new MustBlock(settings.build());
 
     public static BlockEntityType<BacteriaBlockEntity> bacteriaEntity;
+
+    //Block tags
+    public static Tag<Block> unbreakable;
+    public static Tag<Block> unplaceable;
     
     public static void register() {
         //Register blocks
@@ -43,5 +50,9 @@ public class ModBlocks {
         bacteriaEntity = Registry.register(Registry.BLOCK_ENTITY_TYPE,
                 BacteriaMod.MODID + ":bacteria",
                 BlockEntityType.Builder.create(BacteriaBlockEntity::new, new Block[]{replacer, destroyer}).build(null));
+
+        //Register block tags
+        unbreakable = TagRegistry.block(new Identifier(BacteriaMod.MODID, "unbreakable"));
+        unplaceable = TagRegistry.block(new Identifier(BacteriaMod.MODID, "unplaceable"));
     }
 }

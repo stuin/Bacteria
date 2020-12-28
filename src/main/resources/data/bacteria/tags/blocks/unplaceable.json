@@ -1,0 +1,32 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:netherite_block",
+    "minecraft:ancient_debris",
+    "minecraft:emerald_block",
+    "minecraft:emerald_ore",
+    "minecraft:diamond_block",
+    "minecraft:diamond_ore",
+    "minecraft:lapis_block",
+    "minecraft:lapis_ore",
+    "minecraft:redstone_block",
+    "minecraft:redstone_ore",
+    "minecraft:gold_block",
+    "minecraft:gold_ore",
+    "minecraft:nether_gold_ore",
+    "minecraft:nether_quartz_ore",
+    "minecraft:iron_block",
+    "minecraft:iron_ore",
+    "minecraft:coal_block",
+    "minecraft:coal_ore",
+    "minecraft:tnt",
+    "minecraft:piston",
+    "minecraft:sticky_piston",
+    "minecraft:sponge",
+    "minecraft:wet_sponge",
+    "minecraft:obsidian",
+    "minecraft:crying_obsidian",
+    "minecraft:respawn_anchor",
+    "minecraft:lodestone"
+  ]
+}
