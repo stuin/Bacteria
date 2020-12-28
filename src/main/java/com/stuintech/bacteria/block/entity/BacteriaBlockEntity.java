@@ -6,10 +6,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
@@ -38,10 +40,17 @@ public class BacteriaBlockEntity extends BlockEntity {
         this.input = input;
         this.output = output;
 
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        if (blockEntity instanceof Inventory) {
+            ItemScatterer.spawn(world, pos, (Inventory)blockEntity);
+            world.updateComparators(pos, world.getBlockState(pos).getBlock());
+        }
+
+        BlockState state = ModBlocks.replacer.getDefaultState();
         if(output == Blocks.AIR)
-            world.setBlockState(pos, ModBlocks.destroyer.getDefaultState());
-        else
-            world.setBlockState(pos, ModBlocks.replacer.getDefaultState());
+            state = ModBlocks.destroyer.getDefaultState();
+
+        world.setBlockState(pos, state);
 
         world.setBlockEntity(pos, this);
         world.getBlockTickScheduler().schedule(pos, world.getBlockState(pos).getBlock(), RANDOM.nextInt(MAXDELAY) + MINDELAY);
