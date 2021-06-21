@@ -32,12 +32,12 @@ public class ReplacerStarter extends Block implements IStarter {
 
                 output.getBlock() != input.getBlock() && !input.isAir() &&
                 output.getHardness(world, pos.up()) != -1 && input.getPistonBehavior() != PistonBehavior.BLOCK &&
-                !output.getBlock().isIn(ModBlocks.unplaceable) && !output.getBlock().isIn(BlockTags.WITHER_IMMUNE) &&
+                !output.isIn(ModBlocks.unplaceable) && !output.isIn(BlockTags.WITHER_IMMUNE) &&
                 output.getBlock() != ModBlocks.replacer && output.getBlock() != ModBlocks.replacerStarter &&
                 output.getBlock() != ModBlocks.destroyer && output.getBlock() != ModBlocks.destroyerStarter &&
 
                 input.getHardness(world, pos.down()) != -1 && input.getPistonBehavior() != PistonBehavior.BLOCK &&
-                !input.getBlock().isIn(ModBlocks.unbreakable) && !input.getBlock().isIn(BlockTags.WITHER_IMMUNE) &&
+                !input.isIn(ModBlocks.unbreakable) && !input.isIn(BlockTags.WITHER_IMMUNE) &&
                 input.getBlock() != ModBlocks.replacer && input.getBlock() != ModBlocks.destroyer) {
 
             new BacteriaBlockEntity(world, pos, new HashSet<>(Collections.singletonList(input.getBlock())), output.getBlock());

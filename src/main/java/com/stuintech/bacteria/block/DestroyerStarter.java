@@ -30,7 +30,7 @@ public class DestroyerStarter extends Block implements IStarter {
         BlockState input = world.getBlockState(pos.up());
         BlockPos next = pos.up();
         while(!input.isAir() && 
-                !input.getBlock().isIn(ModBlocks.unbreakable) && !input.getBlock().isIn(BlockTags.WITHER_IMMUNE) &&
+                !input.isIn(ModBlocks.unbreakable) && !input.isIn(BlockTags.WITHER_IMMUNE) &&
                 input.getBlock() != ModBlocks.replacer && input.getBlock() != ModBlocks.destroyer &&
                 input.getHardness(world, next) != -1 && input.getPistonBehavior() != PistonBehavior.BLOCK) {
 

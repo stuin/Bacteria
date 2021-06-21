@@ -1,13 +1,15 @@
 package com.stuintech.bacteria.block.entity;
 
+import com.stuintech.bacteria.block.BacteriaBlock;
 import com.stuintech.bacteria.block.ModBlocks;
 import com.stuintech.bacteria.util.NeighborLists;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
@@ -20,7 +22,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-public class BacteriaBlockEntity extends BlockEntity {
+public class BacteriaBlockEntity extends BlockEntity implements BlockEntityTicker<BacteriaBlockEntity> {
     private Set<Block> input;
     private Block output;
 
@@ -30,13 +32,9 @@ public class BacteriaBlockEntity extends BlockEntity {
     public static final int JAMMERDELAY = MAXDELAY * 2;
     public static boolean jammed = false;
     public static long jammedAt = 0;
-    
-    public BacteriaBlockEntity() {
-        super(ModBlocks.bacteriaEntity);
-    }
 
-    public BacteriaBlockEntity(World world, BlockPos pos, Set<Block> input, Block output) {
-        super(ModBlocks.bacteriaEntity);
+    public BacteriaBlockEntity(BlockPos pos, BlockState state, Set<Block> input, Block output) {
+        super(ModBlocks.bacteriaEntity, pos, state);
         this.input = input;
         this.output = output;
 
@@ -46,18 +44,22 @@ public class BacteriaBlockEntity extends BlockEntity {
             world.updateComparators(pos, world.getBlockState(pos).getBlock());
         }
 
-        BlockState state = ModBlocks.replacer.getDefaultState();
+        state = ModBlocks.replacer.getDefaultState();
         if(output == Blocks.AIR)
             state = ModBlocks.destroyer.getDefaultState();
 
         world.setBlockState(pos, state);
-
-        world.setBlockEntity(pos, this);
         world.getBlockTickScheduler().schedule(pos, world.getBlockState(pos).getBlock(), RANDOM.nextInt(MAXDELAY) + MINDELAY);
         world.playSound(null, pos, SoundEvents.BLOCK_CHORUS_FLOWER_GROW, SoundCategory.BLOCKS, .8f, 1f);
     }
+
+    @Override
+    public void tick(World world, BlockPos pos, BlockState state, BacteriaBlockEntity blockEntity) {
+        blockEntity.runTick();
+    }
+
     
-    public void tick() {
+    public void runTick() {
         if(world != null) {
             //Update jammer time
             if(jammed) {
@@ -87,7 +89,7 @@ public class BacteriaBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void fromTag(BlockState state, CompoundTag tag) {
+    public void fromTag(NbtCompound tag) {
         input = new HashSet<>();
         for(String s : tag.getString("inputID").split("#"))
             input.add(Registry.BLOCK.get(Identifier.tryParse(s)));
@@ -97,7 +99,7 @@ public class BacteriaBlockEntity extends BlockEntity {
     }
 
     @Override
-    public CompoundTag toTag(CompoundTag tag) {
+    public NbtCompound toTag(NbtCompound tag) {
         StringBuilder s = new StringBuilder();
         for(Block b : input)
             s.append(Registry.BLOCK.getId(b).toString()).append("#");
