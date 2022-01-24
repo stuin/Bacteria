@@ -39,7 +39,7 @@ public class MustBlock extends Block implements Fertilizable {
             if(i < 16)
                 world.setBlockState(pos, state.with(AGE, i));
             if(random.nextInt(8) + 8 < i) {
-                BlockPos next = NeighborLists.nextPlace(world, pos, filter);
+                BlockPos next = NeighborLists.nextPlace(world, pos, filter, random);
                 if(next != null) {
                     world.setBlockState(next, this.getDefaultState());
                     world.setBlockState(pos, state.with(AGE, random.nextInt(10)));
@@ -50,7 +50,7 @@ public class MustBlock extends Block implements Fertilizable {
 
     @Override
     public boolean isFertilizable(BlockView world, BlockPos pos, BlockState state, boolean isClient) {
-        return NeighborLists.nextPlace(world, pos, filter) != null;
+        return NeighborLists.nextPlace(world, pos, filter, new Random()) != null;
     }
 
     @Override

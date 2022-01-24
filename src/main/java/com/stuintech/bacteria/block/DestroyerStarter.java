@@ -29,10 +29,8 @@ public class DestroyerStarter extends Block implements IStarter {
         Set<Block> s = new HashSet<>();
         BlockState input = world.getBlockState(pos.up());
         BlockPos next = pos.up();
-        while(!input.isAir() && 
-                !input.isIn(ModBlocks.unbreakable) && !input.isIn(BlockTags.WITHER_IMMUNE) &&
-                input.getBlock() != ModBlocks.replacer && input.getBlock() != ModBlocks.destroyer &&
-                input.getHardness(world, next) != -1 && input.getPistonBehavior() != PistonBehavior.BLOCK) {
+        while(!input.isAir() && !input.isIn(ModBlocks.unbreakable) &&
+                input.getBlock() != ModBlocks.replacer && input.getBlock() != ModBlocks.destroyer) {
 
             s.add(world.getBlockState(next).getBlock());
             world.setBlockState(next, Blocks.AIR.getDefaultState());
@@ -41,7 +39,7 @@ public class DestroyerStarter extends Block implements IStarter {
         }
 
         if(s.size() > 0) {
-            new BacteriaBlockEntity(world, pos, s, Blocks.AIR);
+            BacteriaBlockEntity.replace(world, pos, s, Blocks.AIR);
             return true;
         }
         return false;

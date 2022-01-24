@@ -3,26 +3,31 @@ package com.stuintech.bacteria.block;
 import com.stuintech.bacteria.BacteriaMod;
 import com.stuintech.bacteria.block.entity.BacteriaBlockEntity;
 import com.stuintech.bacteria.item.ModItems;
-import net.fabricmc.fabric.api.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.tag.TagRegistry;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.tag.Tag;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import org.jetbrains.annotations.Nullable;
 
 public class ModBlocks {
-    public static FabricBlockSettings settings = FabricBlockSettings.copy(Blocks.SPONGE);
-    public static FabricBlockSettings breakSettings = FabricBlockSettings.copy(Blocks.SPONGE).breakInstantly();
+    public static AbstractBlock.Settings settings = FabricBlockSettings.copy(Blocks.SPONGE);
+    public static AbstractBlock.Settings breakSettings = FabricBlockSettings.copy(Blocks.SPONGE).breakInstantly();
     
-    public static final Block replacer = new BacteriaBlock(breakSettings.build());
-    public static final Block replacerStarter = new ReplacerStarter(settings.build());
-    public static final Block destroyer = new BacteriaBlock(breakSettings.build());
-    public static final Block destroyerStarter = new DestroyerStarter(settings.build());
-    public static final Block must = new MustBlock(settings.build());
+    public static final Block replacer = new BacteriaBlock(breakSettings);
+    public static final Block replacerStarter = new ReplacerStarter(settings);
+    public static final Block destroyer = new BacteriaBlock(breakSettings);
+    public static final Block destroyerStarter = new DestroyerStarter(settings);
+    public static final Block must = new MustBlock(settings);
 
     public static BlockEntityType<BacteriaBlockEntity> bacteriaEntity;
 
@@ -47,12 +52,19 @@ public class ModBlocks {
                 new BlockItem(must, ModItems.settings.group(ItemGroup.DECORATIONS)));
 
         //Register block entities
-        bacteriaEntity = Registry.register(Registry.BLOCK_ENTITY_TYPE,
-                BacteriaMod.MODID + ":bacteria",
-                BlockEntityType.Builder.create(BacteriaBlockEntity::new, new Block[]{replacer, destroyer}).build(null));
+        bacteriaEntity = register("bacteria", BacteriaBlockEntity::new, replacer, destroyer);
 
         //Register block tags
         unbreakable = TagRegistry.block(new Identifier(BacteriaMod.MODID, "unbreakable"));
         unplaceable = TagRegistry.block(new Identifier(BacteriaMod.MODID, "unplaceable"));
+    }
+
+    private static <T extends BlockEntity> BlockEntityType<T> register(String name, FabricBlockEntityTypeBuilder.Factory<T> factory, Block... blocks) {
+        return Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(BacteriaMod.MODID, name), FabricBlockEntityTypeBuilder.create(factory, blocks).build(null));
+    }
+
+    @Nullable
+    public static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> checkType(BlockEntityType<A> givenType, BlockEntityType<E> expectedType, BlockEntityTicker<? super E> ticker) {
+        return expectedType == givenType ? (BlockEntityTicker<A>) ticker : null;
     }
 }

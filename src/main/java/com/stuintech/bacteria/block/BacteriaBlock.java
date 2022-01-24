@@ -25,13 +25,12 @@ public class BacteriaBlock extends BlockWithEntity {
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new BacteriaBlockEntity(pos, state, null, null);
+        return new BacteriaBlockEntity(pos, state);
     }
 
     @Override
-    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if(world.getBlockEntity(pos) instanceof BacteriaBlockEntity)
-            ((BacteriaBlockEntity)world.getBlockEntity(pos)).runTick();
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        return ModBlocks.checkType(type, ModBlocks.bacteriaEntity, BacteriaBlockEntity::tick);
     }
 
     @Override

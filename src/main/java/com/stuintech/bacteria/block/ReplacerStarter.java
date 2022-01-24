@@ -30,17 +30,13 @@ public class ReplacerStarter extends Block implements IStarter {
         if((output.getOutlineShape(world, pos.up()) == VoxelShapes.fullCube() ||
                 output.getBlock() == Blocks.WATER || output.getBlock() == Blocks.LAVA) &&
 
-                output.getBlock() != input.getBlock() && !input.isAir() &&
-                output.getHardness(world, pos.up()) != -1 && input.getPistonBehavior() != PistonBehavior.BLOCK &&
-                !output.isIn(ModBlocks.unplaceable) && !output.isIn(BlockTags.WITHER_IMMUNE) &&
-                output.getBlock() != ModBlocks.replacer && output.getBlock() != ModBlocks.replacerStarter &&
-                output.getBlock() != ModBlocks.destroyer && output.getBlock() != ModBlocks.destroyerStarter &&
+                output.getBlock() != input.getBlock() && !output.isIn(ModBlocks.unplaceable) &&
+                output.getBlock() != ModBlocks.replacer && output.getBlock() != ModBlocks.destroyer &&
 
-                input.getHardness(world, pos.down()) != -1 && input.getPistonBehavior() != PistonBehavior.BLOCK &&
-                !input.isIn(ModBlocks.unbreakable) && !input.isIn(BlockTags.WITHER_IMMUNE) &&
+                !input.isIn(ModBlocks.unbreakable) &&
                 input.getBlock() != ModBlocks.replacer && input.getBlock() != ModBlocks.destroyer) {
 
-            new BacteriaBlockEntity(world, pos, new HashSet<>(Collections.singletonList(input.getBlock())), output.getBlock());
+            BacteriaBlockEntity.replace(world, pos, new HashSet<>(Collections.singletonList(input.getBlock())), output.getBlock());
             world.setBlockState(pos.up(), Blocks.AIR.getDefaultState());
             return true;
         }

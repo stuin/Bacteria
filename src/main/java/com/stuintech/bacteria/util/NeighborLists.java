@@ -54,11 +54,9 @@ public class NeighborLists {
             new BlockPos(0,0,3),
     };
 
-    private static final Random RANDOM = new Random();
-
     @Nullable
-    public static BlockPos nextPlace(BlockView world, BlockPos pos, Set<Block> filter) {
-        int randI = RANDOM.nextInt(27);
+    public static BlockPos nextPlace(BlockView world, BlockPos pos, Set<Block> filter, Random random) {
+        int randI = random.nextInt(27);
         int i = randI;
         
         //Try all close blocks

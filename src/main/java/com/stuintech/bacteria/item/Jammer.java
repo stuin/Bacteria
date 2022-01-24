@@ -17,7 +17,7 @@ public class Jammer extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
-        BacteriaBlockEntity.jammed = true;
+        BacteriaBlockEntity.setJammed(world);
         return TypedActionResult.success(itemStack);
     }
 }

@@ -24,8 +24,8 @@
     "main": [
       "com.stuintech.bacteria.BacteriaMod"
     ],
-    "sonicdevices": [
-      "com.stuintech.bacteria.integration.sonicdevices.ActivateAction"
+    "socketwrench": [
+      "com.stuintech.bacteria.integration.socketwrench.ActivateAction"
     ]
   },
 
