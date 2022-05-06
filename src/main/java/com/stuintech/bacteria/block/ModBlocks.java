@@ -5,7 +5,6 @@ import com.stuintech.bacteria.block.entity.BacteriaBlockEntity;
 import com.stuintech.bacteria.item.ModItems;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
-import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -14,7 +13,7 @@ import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.tag.Tag;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Nullable;
@@ -32,8 +31,8 @@ public class ModBlocks {
     public static BlockEntityType<BacteriaBlockEntity> bacteriaEntity;
 
     //Block tags
-    public static Tag<Block> unbreakable;
-    public static Tag<Block> unplaceable;
+    public static TagKey<Block> unbreakable;
+    public static TagKey<Block> unplaceable;
     
     public static void register() {
         //Register blocks
@@ -55,8 +54,8 @@ public class ModBlocks {
         bacteriaEntity = register("bacteria", BacteriaBlockEntity::new, replacer, destroyer);
 
         //Register block tags
-        unbreakable = TagRegistry.block(new Identifier(BacteriaMod.MODID, "unbreakable"));
-        unplaceable = TagRegistry.block(new Identifier(BacteriaMod.MODID, "unplaceable"));
+        unbreakable = TagKey.of(Registry.BLOCK_KEY, new Identifier(BacteriaMod.MODID, "unbreakable"));
+        unplaceable = TagKey.of(Registry.BLOCK_KEY, new Identifier(BacteriaMod.MODID, "unplaceable"));
     }
 
     private static <T extends BlockEntity> BlockEntityType<T> register(String name, FabricBlockEntityTypeBuilder.Factory<T> factory, Block... blocks) {
