@@ -1,0 +1,9 @@
+{
+  "block.bacterium.replacer_starter": "Replacer Bacteria",
+  "block.bacterium.replacer": "Replacer Bacteria",
+  "block.bacterium.destroyer_starter": "Destroyer Bacteria",
+  "block.bacterium.destroyer": "Destroyer Bacteria",
+  "block.bacterium.must": "Must",
+  "item.bacterium.jammer": "Bacteria Jammer",
+  "item.bacterium.compacted_must": "Compacted Must"
+}

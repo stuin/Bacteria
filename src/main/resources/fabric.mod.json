@@ -1,31 +1,31 @@
 {
   "schemaVersion": 1,
-  "id": "bacteria",
+  "id": "bacterium",
   "version": "${version}",
 
-  "name": "Bacteria",
+  "name": "Bacterium",
   "description": "Create bacteria and let it eat the world! (Please manage your bio hazards responsibly). Recreation of the Bacteria mod by TeNNoX. Block textures are his.",
   "authors": [
     "Stuin"
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/bacterium",
-    "sources": "https://github.com/stuin/bacteria"
+    "sources": "https://github.com/stuin/bacterium"
   },
   "contributors": [
     "TeNNoX"
   ],
 
   "license": "MIT",
-  "icon": "assets/bacteria/textures/block/destroyer.png",
+  "icon": "assets/bacterium/textures/block/destroyer.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.stuintech.bacteria.BacteriaMod"
+      "com.stuintech.bacterium.Bacterium"
     ],
     "socketwrench": [
-      "com.stuintech.bacteria.integration.socketwrench.ActivateAction"
+      "com.stuintech.bacterium.integration.socketwrench.ActivateAction"
     ]
   },
 

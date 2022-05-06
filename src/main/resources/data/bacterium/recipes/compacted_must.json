@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "MMM",
+    "MMM",
+    "MMM"
+  ],
+  "key": {
+    "M": {
+      "item": "bacterium:must"
+    }
+  },
+  "result": {
+    "item": "bacterium:compacted_must"
+  }
+}
