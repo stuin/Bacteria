@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "bacterium:must",
+    "bacterium:replacer_starter",
+    "bacterium:replacer",
+    "bacterium:destroyer_starter",
+    "bacterium:destroyer"
+  ]
+}

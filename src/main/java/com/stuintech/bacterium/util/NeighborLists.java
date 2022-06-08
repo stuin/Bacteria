@@ -2,10 +2,10 @@ package com.stuintech.bacterium.util;
 
 import net.minecraft.block.Block;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Random;
 import java.util.Set;
 
 public class NeighborLists {
@@ -57,7 +57,12 @@ public class NeighborLists {
     @Nullable
     public static BlockPos nextPlace(BlockView world, BlockPos pos, Set<Block> filter, Random random) {
         int randI = random.nextInt(27);
-        int i = randI;
+        return nextPlace(world, pos, filter, randI);
+    }
+
+    @Nullable
+    public static BlockPos nextPlace(BlockView world, BlockPos pos, Set<Block> filter, int startI) {
+        int i = startI;
         
         //Try all close blocks
         do {
@@ -65,7 +70,7 @@ public class NeighborLists {
                 return NeighborLists.close[i].add(pos);
             } else
                 i = (i + 1) % 27;
-        } while(i != randI);
+        } while(i != startI);
         
         //Try specific far blocks
         for(i = 0; i < 12; i++) {

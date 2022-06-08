@@ -10,12 +10,13 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.util.math.random.RandomSeed;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 
 public class MustBlock extends Block implements Fertilizable {
@@ -50,7 +51,7 @@ public class MustBlock extends Block implements Fertilizable {
 
     @Override
     public boolean isFertilizable(BlockView world, BlockPos pos, BlockState state, boolean isClient) {
-        return NeighborLists.nextPlace(world, pos, filter, new Random()) != null;
+        return NeighborLists.nextPlace(world, pos, filter, 0) != null;
     }
 
     @Override

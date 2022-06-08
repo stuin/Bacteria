@@ -17,7 +17,6 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 
 public class BacteriaBlockEntity extends BlockEntity {
@@ -26,7 +25,6 @@ public class BacteriaBlockEntity extends BlockEntity {
     private long nextTick = 0;
     private boolean jammed = false;
 
-    private static final Random RANDOM = new Random();
     public static final int MAXDELAY = 30;
     public static final int MINDELAY = 10;
     public static long jammedTick = 0;
@@ -59,28 +57,25 @@ public class BacteriaBlockEntity extends BlockEntity {
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, BacteriaBlockEntity blockEntity) {
-        blockEntity.runTick(world.getRandom());
-    }
-
-    public void runTick(Random random) {
         if(world != null && !world.isClient) {
+
             //Update jammer time
             if(jammedTick != 0)
-                jammed = true;
+                blockEntity.jammed = true;
             if(world.getTime() >= jammedTick)
                 jammedTick = 0;
 
             //Spread
-            if(nextTick == 0)
-                nextTick = getNextTick();
-            else if(world.getTime() >= nextTick) {
-                BlockPos next = NeighborLists.nextPlace(world, pos, input, random);
-                if(!jammed && next != null) {
-                    replace(world, next, this.input, this.output);
-                    nextTick = getNextTick();
+            if(blockEntity.nextTick == 0)
+                blockEntity.nextTick = blockEntity.getNextTick();
+            else if(world.getTime() >= blockEntity.nextTick) {
+                BlockPos next = NeighborLists.nextPlace(world, pos, blockEntity.input, world.getRandom());
+                if(!blockEntity.jammed && next != null) {
+                    replace(world, next, blockEntity.input, blockEntity.output);
+                    blockEntity.nextTick = blockEntity.getNextTick();
                 } else {
-                    world.setBlockState(pos, output.getDefaultState());
-                    markRemoved();
+                    world.setBlockState(pos, blockEntity.output.getDefaultState());
+                    blockEntity.markRemoved();
                 }
             }
         }
@@ -110,7 +105,7 @@ public class BacteriaBlockEntity extends BlockEntity {
     private long getNextTick() {
         if(world == null)
             return 0;
-        return world.getTime() + RANDOM.nextInt(MAXDELAY) + MINDELAY;
+        return world.getTime() + world.getRandom().nextInt(MAXDELAY) + MINDELAY;
     }
 
     public static void setJammed(World world) {
