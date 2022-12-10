@@ -8,12 +8,12 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.Registries;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 import java.util.HashSet;
@@ -85,9 +85,9 @@ public class BacteriaBlockEntity extends BlockEntity {
     public void readNbt(NbtCompound tag) {
         input = new HashSet<>();
         for(String s : tag.getString("inputID").split("#"))
-            input.add(Registry.BLOCK.get(Identifier.tryParse(s)));
+            input.add(Registries.BLOCK.get(Identifier.tryParse(s)));
 
-        output = Registry.BLOCK.get(Identifier.tryParse(tag.getString("outputID")));
+        output = Registries.BLOCK.get(Identifier.tryParse(tag.getString("outputID")));
         super.readNbt(tag);
     }
 
@@ -95,10 +95,10 @@ public class BacteriaBlockEntity extends BlockEntity {
     protected void writeNbt(NbtCompound tag) {
         StringBuilder s = new StringBuilder();
         for(Block b : input)
-            s.append(Registry.BLOCK.getId(b)).append("#");
+            s.append(Registries.BLOCK.getId(b)).append("#");
         tag.putString("inputID", s.toString());
 
-        tag.putString("outputID", Registry.BLOCK.getId(output).toString());
+        tag.putString("outputID", Registries.BLOCK.getId(output).toString());
         super.writeNbt(tag);
     }
 

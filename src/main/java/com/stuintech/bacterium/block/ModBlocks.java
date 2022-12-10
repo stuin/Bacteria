@@ -3,6 +3,7 @@ package com.stuintech.bacterium.block;
 import com.stuintech.bacterium.Bacterium;
 import com.stuintech.bacterium.block.entity.BacteriaBlockEntity;
 import com.stuintech.bacterium.item.ModItems;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.AbstractBlock;
@@ -12,10 +13,12 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.tag.TagKey;
+import net.minecraft.item.ItemGroups;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Nullable;
 
 public class ModBlocks {
@@ -36,30 +39,35 @@ public class ModBlocks {
     
     public static void register() {
         //Register blocks
-        Registry.register(Registry.BLOCK, Bacterium.MODID + ":replacer", replacer);
-        Registry.register(Registry.BLOCK, Bacterium.MODID + ":replacer_starter", replacerStarter);
-        Registry.register(Registry.BLOCK, Bacterium.MODID + ":destroyer", destroyer);
-        Registry.register(Registry.BLOCK, Bacterium.MODID + ":destroyer_starter", destroyerStarter);
-        Registry.register(Registry.BLOCK, Bacterium.MODID + ":must", must);
+        Registry.register(Registries.BLOCK, Bacterium.MODID + ":replacer", replacer);
+        Registry.register(Registries.BLOCK, Bacterium.MODID + ":replacer_starter", replacerStarter);
+        Registry.register(Registries.BLOCK, Bacterium.MODID + ":destroyer", destroyer);
+        Registry.register(Registries.BLOCK, Bacterium.MODID + ":destroyer_starter", destroyerStarter);
+        Registry.register(Registries.BLOCK, Bacterium.MODID + ":must", must);
 
         //Register block items
-        Registry.register(Registry.ITEM, Bacterium.MODID + ":replacer_starter",
-                new BlockItem(replacerStarter, ModItems.settings.group(ItemGroup.REDSTONE)));
-        Registry.register(Registry.ITEM, Bacterium.MODID + ":destroyer_starter",
-                new BlockItem(destroyerStarter, ModItems.settings.group(ItemGroup.REDSTONE)));
-        Registry.register(Registry.ITEM, Bacterium.MODID + ":must",
-                new BlockItem(must, ModItems.settings.group(ItemGroup.DECORATIONS)));
+        Registry.register(Registries.ITEM, Bacterium.MODID + ":replacer_starter",
+                new BlockItem(replacerStarter, ModItems.settings));
+        Registry.register(Registries.ITEM, Bacterium.MODID + ":destroyer_starter",
+                new BlockItem(destroyerStarter, ModItems.settings));
+        Registry.register(Registries.ITEM, Bacterium.MODID + ":must",
+                new BlockItem(must, ModItems.settings));
+
+        //Add items to creative groups
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.REDSTONE).register(entries -> entries.add(replacerStarter));
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.REDSTONE).register(entries -> entries.add(destroyerStarter));
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(entries -> entries.add(must));
 
         //Register block entities
         bacteriaEntity = register("bacteria", BacteriaBlockEntity::new, replacer, destroyer);
 
         //Register block tags
-        unbreakable = TagKey.of(Registry.BLOCK_KEY, new Identifier(Bacterium.MODID, "unbreakable"));
-        unplaceable = TagKey.of(Registry.BLOCK_KEY, new Identifier(Bacterium.MODID, "unplaceable"));
+        unbreakable = TagKey.of(RegistryKeys.BLOCK, new Identifier(Bacterium.MODID, "unbreakable"));
+        unplaceable = TagKey.of(RegistryKeys.BLOCK, new Identifier(Bacterium.MODID, "unplaceable"));
     }
 
     private static <T extends BlockEntity> BlockEntityType<T> register(String name, FabricBlockEntityTypeBuilder.Factory<T> factory, Block... blocks) {
-        return Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(Bacterium.MODID, name), FabricBlockEntityTypeBuilder.create(factory, blocks).build(null));
+        return Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(Bacterium.MODID, name), FabricBlockEntityTypeBuilder.create(factory, blocks).build(null));
     }
 
     @Nullable

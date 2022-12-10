@@ -14,6 +14,7 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.util.math.random.RandomSeed;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -50,7 +51,7 @@ public class MustBlock extends Block implements Fertilizable {
     }
 
     @Override
-    public boolean isFertilizable(BlockView world, BlockPos pos, BlockState state, boolean isClient) {
+    public boolean isFertilizable(WorldView world, BlockPos pos, BlockState state, boolean isClient) {
         return NeighborLists.nextPlace(world, pos, filter, 0) != null;
     }
 
