@@ -14,8 +14,8 @@ public class ModItems {
     public static Item compactedMust = new Item(settings);
 
     //Testing SocketWrench library
-    //public static BasicWrenchItem wrench = new BasicWrenchItem(settings.group(ItemGroup.TOOLS)
-    //        .maxCount(1).maxDamage(SocketWrench.DEFAULT_WRENCH_DURABILITY));
+    //public static BasicWrenchItem wrench = new BasicWrenchItem(
+    //       settings.maxCount(1).maxDamage(SocketWrench.DEFAULT_WRENCH_DURABILITY));
     
     public static void register() {
         Registry.register(Registries.ITEM, Bacterium.MODID + ":jammer", jammer);
@@ -26,5 +26,6 @@ public class ModItems {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries -> entries.add(compactedMust));
 
         //Registry.register(Registries.ITEM, Bacterium.MODID + ":wrench", wrench);
+        //ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> entries.add(wrench));
     }
 }
