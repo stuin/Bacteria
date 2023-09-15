@@ -1,6 +1,5 @@
 package com.stuintech.bacterium.integration.socketwrench;
 
-import com.stuintech.bacterium.Bacterium;
 import com.stuintech.bacterium.block.IStarter;
 import com.stuintech.socketwrench.socket.Socket;
 import com.stuintech.socketwrench.socket.SocketSetLoader;
